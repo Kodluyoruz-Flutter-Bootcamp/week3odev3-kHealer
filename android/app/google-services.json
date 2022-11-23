@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "815745941991",
+    "project_id": "gradesystem-61e1c",
+    "storage_bucket": "gradesystem-61e1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815745941991:android:6723aa2ec1d83eff50fd42",
+        "android_client_info": {
+          "package_name": "com.example.odev_baslangic_shared_pref_start"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815745941991-ut584krl8k4343u3qdg4dj9i6t324up2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXhk2xb-RMhc3eD5DNnDG3dzwejCTVFvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "815745941991-ut584krl8k4343u3qdg4dj9i6t324up2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
