@@ -15,19 +15,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isValid = false;
+
   Future<void> register() async {
-    await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text)
-        .then((user) {
-      FirebaseFirestore.instance
-          .collection("Users")
-          .doc(emailController.text)
-          .set({
-        "UserEmail": emailController.text,
-        "UserPassword": passwordController.text,
+    if (isValid) {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((user) {
+        FirebaseFirestore.instance
+            .collection("Users")
+            .doc(emailController.text)
+            .set({
+          "UserEmail": emailController.text,
+          "UserPassword": passwordController.text,
+        });
       });
-    });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+          content: new Text("Password isnt matched the credentials")));
+    }
   }
 
   login() {
@@ -100,23 +107,21 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 FlutterPwValidator(
-                    controller: passwordController,
-                    minLength: 6,
-                    uppercaseCharCount: 1,
-                    numericCharCount: 1,
-                    specialCharCount: 1,
-                    width: 300,
-                    height: 130,
-                    onSuccess: () {
-                      login();
-                      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                          content:
-                              new Text("Password is matched the credentials")));
-                    },
-                    onFail: () {
-                      // ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                      //     content: new Text("Password is not Matched")));
-                    }),
+                  controller: passwordController,
+                  minLength: 6,
+                  uppercaseCharCount: 1,
+                  numericCharCount: 1,
+                  specialCharCount: 1,
+                  width: 300,
+                  height: 130,
+                  onSuccess: () {
+                    isValid = true;
+                    login();
+                    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                        content:
+                            new Text("Password is matched the credentials")));
+                  },
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
