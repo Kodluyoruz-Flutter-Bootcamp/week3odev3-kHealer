@@ -162,6 +162,9 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
     dbhelper.insertStudent(student);
     setState(() {
       getStudents();
+      txtName.text = "";
+      txtLastName.text = "";
+      txtStudentNumber.text = "";
     });
   }
 

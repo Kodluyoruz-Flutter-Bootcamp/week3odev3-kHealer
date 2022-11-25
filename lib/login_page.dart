@@ -30,10 +30,19 @@ class _LoginPageState extends State<LoginPage> {
           "UserEmail": emailController.text,
           "UserPassword": passwordController.text,
         });
+
+        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+          content: new Text("Account created Succesfully"),
+          backgroundColor: Colors.green,
+        ));
+        emailController.text = "";
+        passwordController.text = "";
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-          content: new Text("Password isnt matched the credentials")));
+        content: new Text("Password isnt matched the credentials"),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -118,8 +127,9 @@ class _LoginPageState extends State<LoginPage> {
                     isValid = true;
                     login();
                     ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                        content:
-                            new Text("Password is matched the credentials")));
+                      content: new Text("Password is matched the credentials"),
+                      backgroundColor: Colors.green,
+                    ));
                   },
                 ),
                 Row(
