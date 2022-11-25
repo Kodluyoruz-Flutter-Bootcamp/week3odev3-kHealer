@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:odev_baslangic_shared_pref_start/grades.dart';
 import 'package:path/path.dart';
 import 'dbHelper.dart';
@@ -37,30 +39,62 @@ class _GradesPageState extends State<GradesPage> {
     });
   }
 
+  String user_choice = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange.shade900,
-        title: Text("Student Grades"),
+        title: const Text("Student Grades"),
       ),
       body: Container(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: TextFormField(
-                controller: txtClass,
-                decoration: const InputDecoration(
-                    label: Text('Class'), border: OutlineInputBorder()),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  "Choice Class",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 19,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: DropdownButton(
+                    hint: Text(user_choice),
+                    items: [
+                      DropdownMenuItem(child: Text("Math"), value: "Math"),
+                      DropdownMenuItem(child: Text("Physic"), value: "Physic"),
+                      DropdownMenuItem(
+                          child: Text("Biology"), value: "Biology"),
+                      DropdownMenuItem(
+                          child: Text("Chemistry"), value: "Chemistry"),
+                      DropdownMenuItem(
+                          child: Text("Geometry"), value: "Geometry"),
+                      DropdownMenuItem(
+                          child: Text("English"), value: "English"),
+                      DropdownMenuItem(
+                          child: Text("Literature"), value: "Literature"),
+                    ],
+                    onChanged: (Object? value) {
+                      setState(() {
+                        user_choice = value.toString();
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: TextFormField(
                 controller: txtGrade,
                 decoration: const InputDecoration(
-                    label: Text('Grade'), border: OutlineInputBorder()),
+                    label: Text('Enter Grade'), border: OutlineInputBorder()),
               ),
             ),
             Row(
@@ -89,34 +123,52 @@ class _GradesPageState extends State<GradesPage> {
                     child: ListView.builder(
                         itemCount: lstGrades.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              onTap: () {
-                                setState(() {
-                                  txtClass.text =
-                                      lstGrades[index].studentnumber.toString();
-                                  txtGrade.text =
-                                      lstGrades[index].description.toString();
-                                  selectedId = lstGrades[index].id!;
-                                });
-                              },
-                              leading: Icon(Icons.label),
-                              title: Text(
-                                  "Lesson: ${lstGrades[index].studentnumber!}"),
-                              subtitle: Text(
-                                  "Grade: ${lstGrades[index].description.toString()}"),
-                              iconColor: Colors.red,
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  deleteGrade(lstGrades[index].id!);
-                                },
-                                child: Icon(Icons.delete),
+                          return Dismissible(
+                            background: Card(
+                              child: Icon(
+                                Icons.delete,
+                              ),
+                              color: Colors.red,
+                              margin: EdgeInsets.all(4),
+                            ),
+                            key: UniqueKey(),
+                            onDismissed: (direction) =>
+                                {deleteGrade(lstGrades[index].id!)},
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 1.0, right: 8, left: 8, bottom: 1),
+                              child: Card(
+                                child: ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      txtClass.text = lstGrades[index]
+                                          .studentnumber
+                                          .toString();
+                                      txtGrade.text = lstGrades[index]
+                                          .description
+                                          .toString();
+                                      selectedId = lstGrades[index].id!;
+                                    });
+                                  },
+                                  leading: const Icon(Icons.label),
+                                  title: Text(
+                                      "Lesson: ${lstGrades[index].studentnumber!}"),
+                                  subtitle: Text(
+                                      "Grade: ${lstGrades[index].description.toString()}"),
+                                  iconColor: Colors.red,
+                                  trailing: GestureDetector(
+                                    onTap: () {
+                                      deleteGrade(lstGrades[index].id!);
+                                    },
+                                    child: const Icon(Icons.delete),
+                                  ),
+                                ),
                               ),
                             ),
                           );
                         }),
                   )
-                : Card(),
+                : const Card(),
           ],
         ),
       ),
@@ -124,9 +176,9 @@ class _GradesPageState extends State<GradesPage> {
   }
 
   saveGrade() {
-    if (txtClass.text.isNotEmpty) {
-      Grades grade = Grades(
-          txtClass.text.toString(), txtGrade.text.toString(), widget.personId);
+    if (user_choice.isNotEmpty) {
+      Grades grade =
+          Grades(user_choice, txtGrade.text.toString(), widget.personId);
       dataSave(grade);
     }
   }
@@ -135,14 +187,14 @@ class _GradesPageState extends State<GradesPage> {
     await dbHelper.insert(grade);
     setState(() {
       getGrades();
-      txtClass.text = "";
+      user_choice = "";
       txtGrade.text = "";
     });
   }
 
   updateGrade() {
     if (selectedId > 0) {
-      update(Grades.withId(selectedId, txtClass.text.toString(),
+      update(Grades.withId(selectedId, user_choice.toString(),
           txtGrade.text.toString(), widget.personId));
     }
   }
@@ -151,7 +203,7 @@ class _GradesPageState extends State<GradesPage> {
     await dbHelper.update(grade);
     setState(() {
       getGrades();
-      txtClass.text = "";
+      user_choice = "";
       txtGrade.text = "";
       selectedId = -1;
     });
