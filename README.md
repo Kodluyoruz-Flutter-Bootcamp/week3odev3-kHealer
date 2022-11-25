@@ -1,6 +1,7 @@
 # odev_baslangic_shared_pref_start
 
-A new Flutter project.
+![gifall](https://user-images.githubusercontent.com/95585412/204055341-5a4ae2f7-b983-4d02-a0e2-7c1dd2cd2090.gif)
+
 
 ## Getting Started
 
