@@ -4,7 +4,7 @@ In splash screen lottie 2.0.0  and animated_splash_screen: ^1.3.0 package used. 
 Splash screen animation from https://lottiefiles.com, I used free to use animation.<br>
 Login e-mail and password connected to the firebase authentication.<br>
 For  login screen password validation i used flutter_pw_validator 1.4.2 package.<br>
-flutter_pw_validator's onSucces method i give my login button function to auto login if email and password match with firebase registered e-mail and password.<br>
+flutter_pw_validator's onSuccess method i give my login button function to auto login if email and password match with firebase registered e-mail and password.<br>
 
 For Swipe Deletes: Dismissible Widget used.
 
