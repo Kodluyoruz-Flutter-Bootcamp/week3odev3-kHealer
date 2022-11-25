@@ -1,4 +1,13 @@
-# odev_baslangic_shared_pref_start
+# ödev3
+
+In splash screen lottie 2.0.0  and animated_splash_screen: ^1.3.0 package used.
+Splash screen animation from https://lottiefiles.com, I used free to use animation.
+Login e-mail and password connected to the firebase authentication.
+For  login screen password validation i used flutter_pw_validator 1.4.2 package.
+flutter_pw_validator's onSucces method i give my login button function to auto login if email and password match with firebase registered e-mail and password.
+
+For Swipe Deletes: Dismissible Widget used.
+
 
 ![gifall](https://user-images.githubusercontent.com/95585412/204055341-5a4ae2f7-b983-4d02-a0e2-7c1dd2cd2090.gif)
 
